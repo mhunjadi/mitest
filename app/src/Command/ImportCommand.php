@@ -29,6 +29,9 @@ class ImportCommand extends Command
 
         // Initialize the seeder
         $seeder = new Seeder('127.0.0.1', 'mitestdb', 'root', '');
+        // Drop the table if needed
+        $seeder->dropTable();
+        // Create a new table
         $seeder->createTable();
 
         // Define field mappings
