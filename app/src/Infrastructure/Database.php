@@ -7,9 +7,9 @@ use PDOException;
 
 class Database
 {
-    private $pdo;
+    protected $pdo;
 
-    public function __construct($host = '127.0.0.1', $dbname = 'mitestdb', $username = 'root', $password = '')
+    public function __construct(string $host = '127.0.0.1', string $dbname = 'mitestdb', string $username = 'root', string $password = '')
     {
         $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
         try {
@@ -54,8 +54,8 @@ class Database
                     ':name' => $row['name'],
                     ':age' => $row['age'],
                     ':location' => $row['location'],
-                    ':children' => intval($row['children']),
-                    ':pets' => intval($row['pets'])
+                    ':children' => (int) $row['children'],
+                    ':pets' => (int) $row['pets']
                 ]);
             }
         } catch (PDOException $e) {
@@ -94,7 +94,7 @@ class Database
         }
     }
 
-    public function importDataFromJsonl($filePath)
+    public function importDataFromJsonl(string $filePath)
     {
         $data = [];
         $file = fopen($filePath, 'r');

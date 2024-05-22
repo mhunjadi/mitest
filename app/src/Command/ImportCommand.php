@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Infrastructure;
+namespace App\Command;
 
-//use App\Infrastructure\Seeder;
-//use App\Infrastructure\FieldMap;
+use App\Infrastructure\Seeder;
+use App\Domain\Helpers\FieldMap;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -65,9 +65,11 @@ class ImportCommand extends Command
         }
 
         // Import data with the specified filters
-        $seeder->importData($filePath, $fieldMap, $filters);
-
-        $output->writeln('<info>Data imported successfully.</info>');
+        $rowsImported = $seeder->importData($filePath, $fieldMap, $filters);
+        if ($rowsImported)
+            $output->writeln('<info>Data imported successfully.</info>');
+        else
+            $output->writeln('<info>No results for import found.</info>');
         return Command::SUCCESS;
     }
 }

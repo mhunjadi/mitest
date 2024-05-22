@@ -7,8 +7,8 @@ use Symfony\Component\Console\Application;
 
 $application = new Application();
 
-$application->add(new \App\Infrastructure\MainCommand());
-$application->add(new \App\Infrastructure\ImportCommand());
+$application->add(new \App\Command\MainCommand());
+$application->add(new \App\Command\ImportCommand());
 
 try {
     $application->run();

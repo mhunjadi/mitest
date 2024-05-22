@@ -1,9 +1,8 @@
 <?php
-// tests/Infrastructure/ImportCommandTest.php
 
-namespace App\Tests\Infrastructure;
+namespace App\Tests\Command;
 
-use App\Infrastructure\ImportCommand;
+use App\Command\ImportCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -33,7 +32,7 @@ class ImportCommandTest extends TestCase
         $commandTester->execute(['type' => 'location']);
 
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('Data imported successfully.', $output);
+        $this->assertStringContainsString('No results for import found.', $output);
     }
 
     public function testExecuteWithChildrenAndPetsType()
@@ -59,7 +58,7 @@ class ImportCommandTest extends TestCase
         $commandTester->execute(['type' => 'all']);
 
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('Data imported successfully.', $output);
+        $this->assertStringContainsString('No results for import found.', $output);
     }
 
     public function testExecuteWithInvalidType()

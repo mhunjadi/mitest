@@ -2,28 +2,22 @@
 
 namespace App\Infrastructure;
 
-use PDO;
 use PDOException;
+use App\Domain\Helpers\FieldMap;
+use App\Domain\Traits\Filter;
 
 class Seeder extends Database
 {
+    private $lastInsertIds = [];
+
     use Filter;
 
     function __construct($host = '127.0.0.1', $dbname = 'mitestdb', $username = 'root', $password = '')
     {
         parent::__construct($host, $dbname, $username, $password);
-        $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
-        try {
-            $this->pdo = new PDO($dsn, $username, $password);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            echo 'Connection failed: ' . $e->getMessage();
-        }
     }
 
-    private $lastInsertIds = [];
-
-    public function importData($filePath, FieldMap $fieldMap, array $filters = [])
+    public function importData(string $filePath, FieldMap $fieldMap, array $filters = []): array
     {
         $data = $this->loadData($filePath);
 
@@ -49,6 +43,7 @@ class Seeder extends Database
         }
 
         $this->lastInsertIds = $this->insertRows($data);
+        return $this->lastInsertIds;
     }
 
     public function rollbackLastImport()
@@ -84,8 +79,8 @@ class Seeder extends Database
                     ':name' => $row['name'],
                     ':age' => $row['age'],
                     ':location' => $row['location'],
-                    ':children' => json_encode($row['children']),
-                    ':pets' => json_encode($row['pets'])
+                    ':children' => (int) $row['children'],
+                    ':pets' => (int) $row['pets']
                 ]);
                 $insertIds[] = $this->pdo->lastInsertId();
             }

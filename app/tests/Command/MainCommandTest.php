@@ -1,9 +1,8 @@
 <?php
-// tests/Infrastructure/MainCommandTest.php
 
-namespace App\Tests\Infrastructure;
+namespace App\Tests\Command;
 
-use App\Infrastructure\MainCommand;
+use App\Command\MainCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;

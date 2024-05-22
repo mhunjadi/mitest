@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure;
+namespace App\Domain\Traits;
 
 trait Filter
 {
@@ -10,22 +10,18 @@ trait Filter
             return isset ($item['age']) && $item['age'] > $minAge && $item['age'] < $maxAge;
         });
     }
-    public function
-        filterByLocation(
-        array $data,
-        string $location
-    ): array {
+
+    public function filterByLocation(array $data, string $location): array
+    {
         return array_filter($data, function ($item) use ($location) {
             return isset ($item['location']) && strpos($item['location'], $location);
         });
     }
-    public function
-        filterByChildrenAndPets(
-        array $data
-    ): array {
+
+    public function filterByChildrenAndPets(array $data): array
+    {
         return array_filter($data, function ($item) {
-            return
-                intval($item['children']) && intval($item['pets']);
+            return (int) $item['children'] && (int) $item['pets'];
         });
     }
 }
